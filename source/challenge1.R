@@ -1,21 +1,11 @@
----
-title: "Tidyverse"
-author: "Dominik Haller"
----
-
-# Source Code
-
-The following represents my solution to the challenge contained in the "Into the Tidyverse Chapter". The file paths have been changed to enable syntax highlighted rendering.
-
-```{r}
 library(tidyverse)
 library(readxl)
 library(lubridate)
 library(writexl)
 
-bikes <- read_excel("../../ds_data/01_bike_sales/01_raw_data/bikes.xlsx")
-orderlines <- read_excel("../../ds_data/01_bike_sales/01_raw_data/orderlines.xlsx")
-bikeshops <- read_excel("../../ds_data/01_bike_sales/01_raw_data/bikeshops.xlsx")
+bikes <- read_excel("ds_data/01_bike_sales/01_raw_data/bikes.xlsx")
+orderlines <- read_excel("ds_data/01_bike_sales/01_raw_data/orderlines.xlsx")
+bikeshops <- read_excel("ds_data/01_bike_sales/01_raw_data/bikeshops.xlsx")
 
 ## Wrangle Data
 
@@ -88,4 +78,3 @@ sales_by_state_year %>%
   labs(
     title = "Revenue by year and state",
   )
-```
