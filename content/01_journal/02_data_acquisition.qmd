@@ -1,8 +1,51 @@
 ---
 title: "Data Acquisition"
-author: "Joschka Schwarz"
+author: "Dominik Haller"
 ---
 
-::: callout-note
-You can delete everything in here and start fresh.
-:::
+# Grabbing Temperature data from an API
+```{r}
+library(httr)
+library(jsonlite)
+library(tidyverse)
+library(gridExtra)
+library(ggplot2)
+
+# Grab Weather API
+resp <- GET("https://api.open-meteo.com/v1/forecast?latitude=53.55&longitude=9.99&hourly=temperature_2m")
+hourly_temp <- rawToChar(resp$content) %>% fromJSON() 
+time <- hourly_temp[["hourly"]][1]
+temp <- hourly_temp[["hourly"]][2]
+
+data <- data.frame(time, temp) %>% head(n = 30)
+data %>% 
+  ggplot(aes(x = time, y = temperature_2m)) +
+  geom_col() +
+  labs(
+    title = "Hourly Temperature in Hamburg, Germany",
+  ) + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+# Scraping Rosebikes Mountainbike category
+```{r}
+library(tidyverse)
+library(rvest)
+library(readr)
+
+url <- "https://www.rosebikes.de/fahrr%C3%A4der/mtb"
+
+html <- url %>% 
+  read_html()
+
+bike_name <- html %>% 
+  html_nodes("h4.basic-headline__title") %>% 
+  html_text()
+
+price <- html %>% 
+  html_nodes("div.catalog-category-bikes__price-title") %>% 
+  html_text() %>% 
+  parse_number(locale = locale(decimal_mark = ",", grouping_mark = "."))
+
+data <- data.frame(bike_name, price)
+print(data)
+```

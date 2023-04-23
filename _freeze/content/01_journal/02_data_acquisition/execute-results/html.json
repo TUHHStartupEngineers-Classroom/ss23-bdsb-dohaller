@@ -1,0 +1,18 @@
+{
+  "hash": "46cfe94f3083b5cdb3c1001de6c187d9",
+  "result": {
+    "markdown": "---\ntitle: \"Data Acquisition\"\nauthor: \"Dominik Haller\"\n---\n\n\n# Grabbing Temperature data from an API\n\n::: {.cell hash='02_data_acquisition_cache/html/unnamed-chunk-1_116497773422f73011e9df5b7129afe0'}\n\n```{.r .cell-code}\nlibrary(httr)\nlibrary(jsonlite)\nlibrary(tidyverse)\nlibrary(gridExtra)\nlibrary(ggplot2)\n\n# Grab Weather API\nresp <- GET(\"https://api.open-meteo.com/v1/forecast?latitude=53.55&longitude=9.99&hourly=temperature_2m\")\nhourly_temp <- rawToChar(resp$content) %>% fromJSON() \ntime <- hourly_temp[[\"hourly\"]][1]\ntemp <- hourly_temp[[\"hourly\"]][2]\n\ndata <- data.frame(time, temp) %>% head(n = 30)\ndata %>% \n  ggplot(aes(x = time, y = temperature_2m)) +\n  geom_col() +\n  labs(\n    title = \"Hourly Temperature in Hamburg, Germany\",\n  ) + theme(axis.text.x = element_text(angle = 45, hjust = 1))\n```\n\n::: {.cell-output-display}\n![](02_data_acquisition_files/figure-html/unnamed-chunk-1-1.png){width=672}\n:::\n:::\n\n\n# Scraping Rosebikes Mountainbike category\n\n::: {.cell hash='02_data_acquisition_cache/html/unnamed-chunk-2_4f9fb72d6c7374b9a8c5b96732859081'}\n\n```{.r .cell-code}\nlibrary(tidyverse)\nlibrary(rvest)\nlibrary(readr)\n\nurl <- \"https://www.rosebikes.de/fahrr%C3%A4der/mtb\"\n\nhtml <- url %>% \n  read_html()\n\nbike_name <- html %>% \n  html_nodes(\"h4.basic-headline__title\") %>% \n  html_text()\n\nprice <- html %>% \n  html_nodes(\"div.catalog-category-bikes__price-title\") %>% \n  html_text() %>% \n  parse_number(locale = locale(decimal_mark = \",\", grouping_mark = \".\"))\n\ndata <- data.frame(bike_name, price)\nprint(data)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n#>          bike_name price\n#> 1       COUNT SOLO   749\n#> 2      PSYCHO PATH  1499\n#> 3      THRILL HILL  2999\n#> 4 ROOT MILLER PLUS  4999\n#> 5   GROUND CONTROL  1999\n#> 6      ROOT MILLER  2299\n#> 7           BONERO  1499\n#> 8        SOUL FIRE  1999\n#> 9        THE BRUCE   899\n```\n:::\n:::",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {
+      "include-in-header": [
+        "<link href=\"../../site_libs/pagedtable-1.1/css/pagedtable.css\" rel=\"stylesheet\" />\r\n<script src=\"../../site_libs/pagedtable-1.1/js/pagedtable.js\"></script>\r\n"
+      ]
+    },
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
