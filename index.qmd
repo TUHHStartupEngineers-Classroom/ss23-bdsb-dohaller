@@ -6,12 +6,6 @@ author: "Dominik Haller"
 
 ![](assets/logo/TIE_logo.svg){width=80% fig-align="center"}
 
-## How to use
+Welcome to my lab Journal :) I found this course to be very informative as well as well organized! Thank you very much!
 
-1. Accept the assignment and get your own github repo.
-
-2. Blog/journal what you are doing in R, by editing the `.qmd` files. 
-
-3. See the links page for lots of helpful links on learning R.
-
-4. Change everything to make it your own.
+My assignments can be found under the "Journal" menu item.
